@@ -452,9 +452,9 @@ Special thanks to:
 
 ## 📧 Contact & Support
 
-- **GitHub Issues**: [Report bugs or request features](https://github.com/your-username/Fin/issues)
-- **Email**: your-email@example.com
-- **LinkedIn**: [Your LinkedIn Profile]
+-
+- **Email**: pdev58442@gmail.com
+
 
 ---
 
