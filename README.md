@@ -176,27 +176,27 @@ npm start
 ### Main Dashboard
 > *Customizable dashboard with multiple widgets showing real-time stock data*
 
-![Dashboard Overview](https://via.placeholder.com/1200x600/1a1a1a/60a5fa?text=FinBoard+Dashboard+with+Multiple+Widgets)
+![Dashboard Overview](https://drive.google.com/file/d/1U1gw7IZE3CBSnpcsCm0S8Sp3qgNMdUUn/view?usp=sharing)
 
 ### Dark Mode Support
 > *Seamless light and dark theme switching*
 
-![Dark Mode](https://via.placeholder.com/1200x600/0f172a/60a5fa?text=Dark+Mode+Support)
+![Dark Mode](https://drive.google.com/file/d/1PivAfLBBMjghswHTfDUO_4LRjl0jxSPe/view?usp=sharing)
 
 ### Widget Configuration
 > *Easy-to-use modal for adding and configuring widgets*
 
-![Widget Configuration](https://via.placeholder.com/800x500/1a1a1a/4ade80?text=Widget+Configuration+Modal)
+![Widget Configuration](https://drive.google.com/file/d/1bKgpldGWacLypkUdzdUqAtuNSlg3VOO9/view?usp=sharing)
 
 ### Real-Time Charts
 > *Interactive charts with multiple time ranges and live updates*
 
-![Real-Time Charts](https://via.placeholder.com/1200x600/1a1a1a/f59e0b?text=Real-Time+Stock+Charts)
+![Real-Time Charts](https://drive.google.com/file/d/13qWVhrNRmGrFfirBcGpKxGzw_5h0r-lo/view?usp=sharing)
 
 ### Settings Panel
 > *Secure API key management interface*
 
-![Settings](https://via.placeholder.com/800x500/1a1a1a/a855f7?text=Settings+and+API+Configuration)
+![Settings](https://drive.google.com/file/d/1446uU3KFi_EzQXiLHqntoHjDSVCt4xfU/view?usp=sharing)
 
 ---
 
