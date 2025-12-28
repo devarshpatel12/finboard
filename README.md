@@ -176,27 +176,27 @@ npm start
 ### Main Dashboard
 > *Customizable dashboard with multiple widgets showing real-time stock data*
 
-![Dashboard Overview](https://drive.google.com/file/d/1U1gw7IZE3CBSnpcsCm0S8Sp3qgNMdUUn/view?usp=sharing)
+![Dashboard Overview](https://drive.google.com/uc?export=view&id=1U1gw7IZE3CBSnpcsCm0S8Sp3qgNMdUUn)
 
 ### Dark Mode Support
 > *Seamless light and dark theme switching*
 
-![Dark Mode](https://drive.google.com/file/d/1PivAfLBBMjghswHTfDUO_4LRjl0jxSPe/view?usp=sharing)
+![Dark Mode](https://drive.google.com/uc?export=view&id=1PivAfLBBMjghswHTfDUO_4LRjl0jxSPe)
 
 ### Widget Configuration
 > *Easy-to-use modal for adding and configuring widgets*
 
-![Widget Configuration](https://drive.google.com/file/d/1bKgpldGWacLypkUdzdUqAtuNSlg3VOO9/view?usp=sharing)
+![Widget Configuration](https://drive.google.com/uc?export=view&id=1bKgpldGWacLypkUdzdUqAtuNSlg3VOO9)
 
 ### Real-Time Charts
 > *Interactive charts with multiple time ranges and live updates*
 
-![Real-Time Charts](https://drive.google.com/file/d/13qWVhrNRmGrFfirBcGpKxGzw_5h0r-lo/view?usp=sharing)
+![Real-Time Charts](https://drive.google.com/uc?export=view&id=13qWVhrNRmGrFfirBcGpKxGzw_5h0r-lo)
 
 ### Settings Panel
 > *Secure API key management interface*
 
-![Settings](https://drive.google.com/file/d/1446uU3KFi_EzQXiLHqntoHjDSVCt4xfU/view?usp=sharing)
+![Settings](https://drive.google.com/uc?export=view&id=1446uU3KFi_EzQXiLHqntoHjDSVCt4xfU)
 
 ---
 
