@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Status Check - FinBoard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .api-test {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .api-test h3 {
+            margin: 0 0 10px 0;
+            color: #2563eb;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .status.success { background: #10b981; color: white; }
+        .status.error { background: #ef4444; color: white; }
+        .status.testing { background: #f59e0b; color: white; }
+        .details {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f9fafb;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 FinBoard API Status Check</h1>
+    
+    <div id="api-tests"></div>
+    
+    <button onclick="runTests()">Run All Tests</button>
+
+    <script>
+        const API_TESTS = [
+            {
+                name: 'Alpha Vantage - US Stocks',
+                test: async () => {
+                    const response = await fetch('http://localhost:3000/api/test-api?type=us-stock');
+                    return await response.json();
+                }
+            },
+            {
+                name: 'Alpha Vantage - US Mutual Funds',
+                test: async () => {
+                    const response = await fetch('http://localhost:3000/api/test-api?type=us-mf');
+                    return await response.json();
+                }
+            },
+            {
+                name: 'Yahoo Finance - Indian Stocks',
+                test: async () => {
+                    const response = await fetch('http://localhost:3000/api/test-api?type=india-stock');
+                    return await response.json();
+                }
+            },
+            {
+                name: 'MFAPI.in - Indian Mutual Funds',
+                test: async () => {
+                    const response = await fetch('http://localhost:3000/api/test-api?type=india-mf');
+                    return await response.json();
+                }
+            },
+            {
+                name: 'Binance - Crypto Data',
+                test: async () => {
+                    const response = await fetch('http://localhost:3000/api/test-api?type=crypto');
+                    return await response.json();
+                }
+            },
+            {
+                name: 'Finnhub WebSocket - US Stocks',
+                test: async () => {
+                    const response = await fetch('http://localhost:3000/api/test-api?type=websocket');
+                    return await response.json();
+                }
+            }
+        ];
+
+        async function runTests() {
+            const container = document.getElementById('api-tests');
+            container.innerHTML = '';
+
+            for (const apiTest of API_TESTS) {
+                const div = document.createElement('div');
+                div.className = 'api-test';
+                div.innerHTML = `
+                    <h3>${apiTest.name} <span class="status testing">Testing...</span></h3>
+                    <div class="details" id="details-${apiTest.name.replace(/\s+/g, '-')}">Running test...</div>
+                `;
+                container.appendChild(div);
+
+                try {
+                    const result = await apiTest.test();
+                    const statusSpan = div.querySelector('.status');
+                    const detailsDiv = div.querySelector('.details');
+                    
+                    if (result.success) {
+                        statusSpan.textContent = '✓ Working';
+                        statusSpan.className = 'status success';
+                        detailsDiv.innerHTML = `
+                            <strong>Status:</strong> ${result.message || 'API is responding correctly'}<br>
+                            ${result.data ? `<strong>Sample Data:</strong> ${JSON.stringify(result.data).substring(0, 200)}...` : ''}
+                        `;
+                    } else {
+                        statusSpan.textContent = '✗ Failed';
+                        statusSpan.className = 'status error';
+                        detailsDiv.innerHTML = `
+                            <strong>Error:</strong> ${result.error || 'Unknown error'}<br>
+                            ${result.details ? `<strong>Details:</strong> ${result.details}` : ''}
+                        `;
+                    }
+                } catch (error) {
+                    const statusSpan = div.querySelector('.status');
+                    const detailsDiv = div.querySelector('.details');
+                    statusSpan.textContent = '✗ Failed';
+                    statusSpan.className = 'status error';
+                    detailsDiv.innerHTML = `<strong>Error:</strong> ${error.message}`;
+                }
+            }
+        }
+
+        // Auto-run on load
+        window.onload = () => runTests();
+    </script>
+</body>
+</html>

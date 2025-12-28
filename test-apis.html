@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Live Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1a1a1a; color: #fff; }
+        .test { margin: 20px 0; padding: 15px; background: #2a2a2a; border-radius: 5px; }
+        .success { border-left: 4px solid #4ade80; }
+        .error { border-left: 4px solid #ef4444; }
+        .pending { border-left: 4px solid #fbbf24; }
+        h3 { margin-top: 0; }
+        pre { background: #1a1a1a; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Live API Testing Dashboard</h1>
+    
+    <div id="alpha-vantage" class="test pending">
+        <h3>1. Alpha Vantage (US Stocks) - Testing GOOGL...</h3>
+        <div id="alpha-result">Testing...</div>
+    </div>
+
+    <div id="binance" class="test pending">
+        <h3>2. Binance (Crypto) - Testing BTC...</h3>
+        <div id="binance-result">Testing...</div>
+    </div>
+
+    <div id="mfapi" class="test pending">
+        <h3>3. MFAPI (Indian Mutual Funds) - Testing...</h3>
+        <div id="mfapi-result">Testing...</div>
+    </div>
+
+    <div id="finnhub" class="test pending">
+        <h3>4. Finnhub (US Stocks WebSocket) - Testing connection...</h3>
+        <div id="finnhub-result">Testing...</div>
+    </div>
+
+    <div id="yahoo" class="test pending">
+        <h3>5. Yahoo Finance (Indian Stocks) - Testing via proxy...</h3>
+        <div id="yahoo-result">Testing...</div>
+    </div>
+
+    <script>
+        const ALPHA_KEY = 'ZGF7KAYEV5CULKN2';
+        const FINNHUB_KEY = 'd57uvo9r01qptoap7vfg';
+
+        // Test Alpha Vantage
+        fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=GOOGL&apikey=${ALPHA_KEY}`)
+            .then(r => r.json())
+            .then(data => {
+                const div = document.getElementById('alpha-vantage');
+                const result = document.getElementById('alpha-result');
+                
+                if (data['Global Quote'] && data['Global Quote']['05. price']) {
+                    div.className = 'test success';
+                    const price = data['Global Quote']['05. price'];
+                    const change = data['Global Quote']['10. change percent'];
+                    result.innerHTML = `✅ <strong>Working!</strong><br>GOOGL: $${price} (${change})<br><pre>${JSON.stringify(data['Global Quote'], null, 2)}</pre>`;
+                } else {
+                    div.className = 'test error';
+                    result.innerHTML = `❌ <strong>Error:</strong><br><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                }
+            })
+            .catch(err => {
+                document.getElementById('alpha-vantage').className = 'test error';
+                document.getElementById('alpha-result').innerHTML = `❌ <strong>Network Error:</strong> ${err.message}`;
+            });
+
+        // Test Binance
+        Promise.all([
+            fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT'),
+            fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT')
+        ])
+            .then(([r1, r2]) => Promise.all([r1.json(), r2.json()]))
+            .then(([price, ticker]) => {
+                const div = document.getElementById('binance');
+                const result = document.getElementById('binance-result');
+                
+                div.className = 'test success';
+                result.innerHTML = `✅ <strong>Working!</strong><br>BTC: $${price.price}<br>24h Change: ${ticker.priceChangePercent}%<br><pre>${JSON.stringify(ticker, null, 2)}</pre>`;
+            })
+            .catch(err => {
+                document.getElementById('binance').className = 'test error';
+                document.getElementById('binance-result').innerHTML = `❌ <strong>Network Error:</strong> ${err.message}`;
+            });
+
+        // Test MFAPI
+        fetch('https://api.mfapi.in/mf/latest')
+            .then(r => r.json())
+            .then(data => {
+                const div = document.getElementById('mfapi');
+                const result = document.getElementById('mfapi-result');
+                
+                div.className = 'test success';
+                result.innerHTML = `✅ <strong>Working!</strong><br>Total Funds: ${data.length}<br>Sample:<br><pre>${JSON.stringify(data[0], null, 2)}</pre>`;
+            })
+            .catch(err => {
+                document.getElementById('mfapi').className = 'test error';
+                document.getElementById('mfapi-result').innerHTML = `❌ <strong>Network Error:</strong> ${err.message}`;
+            });
+
+        // Test Finnhub WebSocket
+        try {
+            const ws = new WebSocket(`wss://ws.finnhub.io?token=${FINNHUB_KEY}`);
+            let received = false;
+            
+            ws.onopen = () => {
+                ws.send(JSON.stringify({'type':'subscribe', 'symbol': 'AAPL'}));
+                setTimeout(() => {
+                    if (!received) {
+                        document.getElementById('finnhub').className = 'test success';
+                        document.getElementById('finnhub-result').innerHTML = `✅ <strong>Connected!</strong><br>WebSocket open. Waiting for trades...<br>Note: Trades only during market hours (9:30 AM - 4:00 PM ET)`;
+                    }
+                }, 3000);
+            };
+            
+            ws.onmessage = (event) => {
+                received = true;
+                const data = JSON.parse(event.data);
+                document.getElementById('finnhub').className = 'test success';
+                document.getElementById('finnhub-result').innerHTML = `✅ <strong>Receiving Live Data!</strong><br><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            };
+            
+            ws.onerror = (error) => {
+                document.getElementById('finnhub').className = 'test error';
+                document.getElementById('finnhub-result').innerHTML = `❌ <strong>Connection Error</strong><br>Could not connect to Finnhub WebSocket`;
+            };
+
+            ws.onclose = () => {
+                if (!received) {
+                    document.getElementById('finnhub').className = 'test error';
+                    document.getElementById('finnhub-result').innerHTML = `⚠️ <strong>Connection Closed</strong><br>WebSocket closed before receiving data. Key might be invalid.`;
+                }
+            };
+        } catch (err) {
+            document.getElementById('finnhub').className = 'test error';
+            document.getElementById('finnhub-result').innerHTML = `❌ <strong>Error:</strong> ${err.message}`;
+        }
+
+        // Test Yahoo Finance via proxy
+        fetch('http://localhost:3000/api/indian-stock?symbol=RELIANCE')
+            .then(r => r.json())
+            .then(data => {
+                const div = document.getElementById('yahoo');
+                const result = document.getElementById('yahoo-result');
+                
+                if (data.symbol) {
+                    div.className = 'test success';
+                    result.innerHTML = `✅ <strong>Working!</strong><br>${data.name}: ₹${data.price}<br><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                } else {
+                    div.className = 'test error';
+                    result.innerHTML = `❌ <strong>Error:</strong><br><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                }
+            })
+            .catch(err => {
+                document.getElementById('yahoo').className = 'test error';
+                document.getElementById('yahoo-result').innerHTML = `❌ <strong>Network Error:</strong> ${err.message}`;
+            });
+    </script>
+</body>
+</html>
