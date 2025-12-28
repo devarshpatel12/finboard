@@ -356,53 +356,6 @@ Fin/
 
 ---
 
-## 🚀 Deployment
-
-### Deploy to Vercel (Recommended - 2 minutes)
-
-Vercel is built by the Next.js team and provides zero-configuration deployment.
-
-1. **Push code to GitHub**
-   ```bash
-   git add .
-   git commit -m "Ready for deployment"
-   git push origin main
-   ```
-
-2. **Deploy to Vercel**
-   - Visit [vercel.com](https://vercel.com)
-   - Click "New Project"
-   - Import your GitHub repository
-   - Add environment variables:
-     ```
-     NEXT_PUBLIC_ALPHA_VANTAGE_KEY=your_key
-     NEXT_PUBLIC_FINNHUB_KEY=your_key
-     ```
-   - Click "Deploy"
-
-3. **Done!** Your app is live at `https://your-project.vercel.app`
-
-### Deploy to Netlify
-
-1. Install Netlify plugin:
-   ```bash
-   npm install @netlify/plugin-nextjs
-   ```
-
-2. Create `netlify.toml`:
-   ```toml
-   [build]
-     command = "npm run build"
-     publish = ".next"
-
-   [[plugins]]
-     package = "@netlify/plugin-nextjs"
-   ```
-
-3. Deploy via Netlify CLI or web interface
-
----
-
 ## 🧪 Testing
 
 ### Built-in API Tester
