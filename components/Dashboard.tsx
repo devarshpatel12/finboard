@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Responsive, Layout as RGLLayout } from 'react-grid-layout';
+import { Responsive, Layout } from 'react-grid-layout';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { updateLayout } from '@/store/dashboardSlice';
 import Widget from './widgets/Widget';
@@ -29,16 +29,17 @@ export default function Dashboard() {
     return () => window.removeEventListener('resize', updateWidth);
   }, []);
 
-  const onLayoutChange = (newLayout: any[]) => {
-    // Convert RGL layout to our layout format
+  const onLayoutChange = (layout: Layout, layouts: { [key: string]: Layout }) => {
+    // Use the layout for 'lg' breakpoint
+    const newLayout = layout as any[];
     const updatedLayout = newLayout.map((item: any) => ({
       i: item.i,
       x: item.x,
       y: item.y,
       w: item.w,
       h: item.h,
-      minW: item.minW,
-      minH: item.minH,
+      minW: item.minW || 2,
+      minH: item.minH || 2,
     }));
     dispatch(updateLayout(updatedLayout));
   };
@@ -74,12 +75,9 @@ export default function Dashboard() {
         rowHeight={80}
         width={width}
         onLayoutChange={onLayoutChange}
-        isDraggable={true}
-        isResizable={true}
-        draggableHandle=".drag-handle"
       >
         {widgetArray.map((widget) => (
-          <div key={widget.id} className="drag-handle">
+          <div key={widget.id}>
             <Widget config={widget} />
           </div>
         ))}
