@@ -241,11 +241,11 @@ npm start
 ```
 
 ### Multi-Market Coverage
-- **50+ US Stocks** (GOOGL, AAPL, MSFT, AMZN, TSLA, META, NVDA, NFLX, etc.)
-- **20+ Indian Stocks** (RELIANCE, TCS, INFY, HDFCBANK, ICICIBANK, etc.)
-- **8+ Cryptocurrencies** (BTC, ETH, BNB, SOL, XRP, ADA, DOGE, MATIC)
-- **US Mutual Funds** (VFIAX, VTSAX, FXAIX, etc.)
-- **40,000+ Indian Mutual Funds**
+- **Unlimited US Stocks** - 8,000+ NYSE, NASDAQ, AMEX stocks supported (GOOGL, AAPL, MSFT, AMZN, TSLA, META, NVDA, NFLX, JPM, WMT, etc.)
+- **Unlimited Indian Stocks** - 5,000+ NSE/BSE stocks supported (RELIANCE, TCS, INFY, HDFCBANK, ICICIBANK, SBIN, BHARTIARTL, etc.)
+- **Unlimited Cryptocurrencies** - All major cryptos via Binance (BTC, ETH, BNB, SOL, XRP, ADA, DOGE, MATIC, AVAX, DOT, etc.)
+- **Unlimited US Mutual Funds** - Comprehensive fund coverage via Alpha Vantage (VFIAX, VTSAX, FXAIX, etc.)
+- **40,000+ Indian Mutual Funds** - Complete MFAPI database access
 
 ### Error Handling & Resilience
 - ✅ Graceful API failure handling
